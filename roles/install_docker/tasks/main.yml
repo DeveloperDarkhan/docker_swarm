@@ -1,0 +1,78 @@
+#   1.0 if not exist service (if rc == 4 )
+- name: Check service is run or exist (Docker)
+  command: systemctl status docker
+  ignore_errors: yes
+  changed_when: false
+  register: check_service_docker
+
+- name: Print docker status
+  debug: 
+    msg: "{{ check_service_docker.rc }}"
+
+
+- name: If docker service is not exist, you should install, add and etc..
+  block:
+    ###  #2.2 Add docker groups if not exist
+    - name: Ensure group "docker" exists if not add it
+      ansible.builtin.group:
+        name: docker
+        state: present
+
+    - name: Creates directory etc/docker
+      file:
+        path: '{{ item }}'
+        state: directory
+        owner: root
+        group: root
+        recurse: yes
+        mode: 0755
+      with_items:
+        - "/root/.docker/"
+
+    - name: Send docker daemon json configuration to nodes, hub, nexus, bash sh script
+      template:
+        src: templates/{{ item.src }}.j2
+        dest: "{{item.dest}}{{ item.src }}" 
+        owner: root
+        group: root
+        mode: 0755
+      with_items:
+        - {src: "create-self-certs.sh", dest: "/root/.docker/"}
+        - {src: "docker.service", dest: "/etc/systemd/system/"}
+
+    - name: Push docker to nodes and extract docker
+      unarchive:
+        src: docker-20.10.0.tgz
+        dest: /usr/bin/
+        owner: root
+        group: root
+        extra_opts: [--strip-components=1]
+
+    - name: Change the working directory to /root/.docker/ before executing the command and Run a script only if /root/.docker/ca.pem does not exist on the remote node
+      shell: >
+        /root/.docker/create-self-certs.sh >> somelog.txt
+      args:
+        chdir: /root/.docker/
+        creates: /root/.docker/ca.pem
+      ignore_errors: true
+
+    
+    - name: restart daemon-reload
+      shell: 
+        cmd: systemctl daemon-reload
+
+    - name: restart docker
+      shell: 
+        cmd: systemctl restart docker
+
+    - name: enable docker to survive after rebooted system
+      service: 
+        name: "{{ item }}" 
+        enabled: yes 
+        state: started
+      with_items:
+        - docker
+
+  when:
+    - ( check_service_docker.rc == 4 or check_service_docker.rc == 3 )
+

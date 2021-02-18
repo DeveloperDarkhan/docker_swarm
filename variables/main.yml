@@ -1,0 +1,9 @@
+#------------create-self-certs.sh----------
+HOST_NAME_SH: "test-app-swarm.tsb.kz"
+PASSWORD_SH: "A5fV1Go6tEyDA68nfsaE4TCqHzyN3DRGJNJqR3JVIFCY3iCnCN"
+IP_MASTER_SH_1: 10.153.223.8
+IP_MASTER_SH_2: 10.153.223.9
+IP_MASTER_SH_3: 10.153.223.10
+IP_MASTER_SH_4: 10.153.223.11
+IP_MASTER_SH_5: 10.153.223.12 
+#---#

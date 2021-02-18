@@ -1,0 +1,13 @@
+[swarm-manager]
+192.168.56.107
+
+[docker_swarm_master]
+192.168.56.107 nodename=master1 hostname=test-app-swarm-master-1.tsb.kz
+
+[docker_swarm_worker]
+192.168.56.108 nodename=worker1 host_group=worker hostname=test-app-swarm-worker-1.tsb.kz
+192.168.56.109 nodename=worker2 host_group=worker hostname=test-app-swarm-worker-2.tsb.kz
+
+[docker_swarm_cluster:children]
+docker_swarm_master
+docker_swarm_worker

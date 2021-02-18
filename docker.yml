@@ -1,0 +1,8 @@
+- name: install and deploy swarm cluster
+  hosts: docker_swarm_cluster
+  gather_facts: yes
+  become: yes
+  vars_files:
+   - "./variables/main.yml"
+  roles:
+    - install_docker
