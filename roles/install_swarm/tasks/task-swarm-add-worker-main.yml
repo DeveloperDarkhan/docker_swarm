@@ -52,11 +52,11 @@
 
 - name: Test5
   debug:
-    msg: "{{ hostvars[inventory_hostname]}}"
+    msg: "{{ hostvars[inventory_hostname].ansible_host}}"
   with_items:
-    - groups['docker_swarm_worker']
+    - groups['swarm-manager']
   when:
-    - inventory_hostname in groups['swarm-manager']
+    - inventory_hostname in groups['docker_swarm_worker']
   ignore_errors: yes
 
   # inventory_hostname
