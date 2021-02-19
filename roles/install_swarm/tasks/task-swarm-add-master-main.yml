@@ -4,18 +4,6 @@
   register: swarm_status
   ignore_errors: true
 
-# - name: Add Managers to the Swarm
-#   shell: "docker swarm join --token {{ hostvars[item]['worker_token']['stdout'] }} {{ hostvars[item]['ansible_enp0s8']['ipv4']['address'] }}:2377"
-#   ignore_errors: yes
-#   with_items:
-#    - "{{ hostvars[inventory_hostname]['groups']['swarm-manager'] }}"
-#   when: 
-#     - swarm_status.rc == 1
-#     - inventory_hostname in groups['docker_swarm_master']
-
-
-
-
 - name: Add Managers to the Swarm
   block:
     - name: Add Managers to the Swarm
