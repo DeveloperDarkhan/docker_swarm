@@ -4,11 +4,19 @@
   register: swarm_status
   ignore_errors: true
 
+# - name: Add Workers to the Swarm
+#   shell: "docker swarm join --token {{ hostvars[item]['worker_token']['stdout'] }} {{ hostvars[item]['ansible_enp0s8']['ipv4']['address'] }}:2377"
+#   ignore_errors: yes
+#   with_items:
+#     - "{{ hostvars[inventory_hostname]['groups']['swarm-manager'] }}"
+#   when: 
+#     - inventory_hostname in groups['docker_swarm_worker']
+
 - name: Add Workers to the Swarm
-  shell: "docker swarm join --token {{ hostvars[item]['worker_token']['stdout'] }} {{ hostvars[item]['ansible_enp0s8']['ipv4']['address'] }}:2377"
+  shell: "docker swarm join --token {{ hostvars[item]['groups']['swarm-manager']['worker_token']['stdout'] }} {{ hostvars[item]['ansible_enp0s8']['ipv4']['address'] }}:2377"
   ignore_errors: yes
   with_items:
-   - "{{ hostvars[inventory_hostname]['groups']['swarm-manager'] }}"
+    - "{{ hostvars[inventory_hostname]['groups']['docker_swarm_worker'] }}"
   when: 
     - inventory_hostname in groups['docker_swarm_worker']
 

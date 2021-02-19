@@ -39,7 +39,6 @@
         group: root
         mode: 0755
       with_items:
-        - {src: "create-self-certs.sh", dest: "/root/.docker/"}
         - {src: "docker.service", dest: "/etc/systemd/system/"}
         - {src: "daemon.json", dest: "/etc/docker/"}
 
@@ -51,15 +50,15 @@
         group: root
         extra_opts: [--strip-components=1]
 
-    - name: Change the working directory to /root/.docker/ before executing the command and Run a script only if /root/.docker/ca.pem does not exist on the remote node
-      shell: >
-        /root/.docker/create-self-certs.sh >> somelog.txt
-      args:
-        chdir: /root/.docker/
-        creates: /root/.docker/ca.pem
-      ignore_errors: true
-      when:
-        - inventory_hostname in groups['swarm-manager']
+    # - name: Change the working directory to /root/.docker/ before executing the command and Run a script only if /root/.docker/ca.pem does not exist on the remote node
+    #   shell: >
+    #     /root/.docker/create-self-certs.sh >> somelog.txt
+    #   args:
+    #     chdir: /root/.docker/
+    #     creates: /root/.docker/ca.pem
+    #   ignore_errors: true
+    #   when:
+    #     - inventory_hostname in groups['swarm-manager']
 
 #################################   Generating certificates    #################################
 
