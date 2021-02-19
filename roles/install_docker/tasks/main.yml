@@ -115,7 +115,7 @@
     - name: Copy files with owner and permissions to deploy into root/.directory on each server
       ansible.builtin.copy:
         src: "{{ item }}"
-        dest: /var/
+        dest: /root/.docker/
         owner: root
         group: root
         mode: '0555'
