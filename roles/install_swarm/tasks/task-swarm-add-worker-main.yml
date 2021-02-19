@@ -40,3 +40,12 @@
   when:
     - inventory_hostname in groups['swarm-manager']
   ignore_errors: yes
+
+- name: Test4
+  debug:
+    msg: "{{ hostvars[item]['worker_token'] }}"
+  with_item:
+    - groups['swarm-manager']
+  when:
+    - inventory_hostname in groups['swarm-manager']
+  ignore_errors: yes
