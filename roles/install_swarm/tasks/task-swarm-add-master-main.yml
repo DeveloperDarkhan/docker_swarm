@@ -5,10 +5,10 @@
   ignore_errors: true
 
 - name: Add Managers to the Swarm
-  shell: "docker swarm join --token {{ hostvars[groups['docker_swarm_master']]['manager_token']['stdout'] }} {{ hostvars[groups['docker_swarm_master']]['ansible_default_ipv4']['address'] }}:2377"
+  shell: "docker swarm join --token {{ hostvars[item]['worker_token']['stdout'] }} {{ hostvars[item]['ansible_enp0s8']['ipv4']['address'] }}:2377"
   ignore_errors: yes
   with_items:
-    - "{{ groups['docker_swarm_master'] }}"
+   - "{{ hostvars[inventory_hostname]['groups']['swarm-manager'] }}"
   when: 
     - swarm_status.rc != 0
-    # - inventory_hostname in groups['docker_swarm_master']
+    - inventory_hostname in groups['docker_swarm_master']
