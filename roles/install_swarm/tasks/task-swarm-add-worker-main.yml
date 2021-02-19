@@ -60,7 +60,9 @@
   ignore_errors: yes
 
 - name: Setting host facts using key=value pairs, note that this always creates strings or booleans
-  set_fact: hostname="{{ hostvars[inventory_hostname]['worker_token']['stdout'] }}"
+  set_fact: 
+    token: "{{ hostvars[inventory_hostname]['worker_token']['stdout'] }}"
+    host: "{{ hostvars[inventory_hostname] }}"
   when:
     - inventory_hostname in groups['swarm-manager']
 
@@ -79,17 +81,29 @@
 
 - name: Test88
   debug:
-    var: hostname
-
-
-- name: Test6
-  debug:
-    msg: "{{ hostvars[item]['ansible_default_ipv4']['address']}}"
-  with_items:
-    - groups['swarm-manager']
+    var: host
   when:
-    - inventory_hostname in groups['docker_swarm_worker']
+    - inventory_hostname in groups['swarm-manager']
+
+# "hostname": "SWMTKN-1
+
+
+- name: Add Workers to the Swarm
+  shell: "docker swarm join --token {{ hostvars[host]['worker_token']['stdout'] }} {{ hostvars[host]['ansible_default_ipv4']['address'] }}:2377"
   ignore_errors: yes
+  when: 
+    - inventory_hostname in groups['docker_swarm_worker']
+
+
+
+# - name: Test6
+#   debug:
+#     msg: "{{ hostvars[item]['ansible_default_ipv4']['address']}}"
+#   with_items:
+#     - groups['swarm-manager']
+#   when:
+#     - inventory_hostname in groups['docker_swarm_worker']
+#   ignore_errors: yes
   # inventory_hostname
   # hostvars[inventory_hostname].ansible_host
   # {{ hostvars['your_host_group'].ansible_host }}
