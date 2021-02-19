@@ -104,9 +104,9 @@
   run_once: true
 
 
-# - name: Change the working directory to /root/.docker/ before executing the command and Run a script only if /root/.docker/ca.pem does not exist on the remote node
-#   shell: >
-#     /root/create-self-certs.sh >> somelog.txt
-#   delegate_to: localhost
-#   ignore_errors: true
-#   run_once: true
+- name: Change the working directory to /root/.docker/ before executing the command and Run a script only if /root/.docker/ca.pem does not exist on the remote node
+  shell: >
+    /root/create-self-certs.sh >> somelog.txt
+  delegate_to: localhost
+  ignore_errors: true
+  run_once: true
