@@ -8,7 +8,7 @@
   shell: "docker swarm join --token {{ hostvars['groups['docker_swarm_master']']['worker_token']['stdout'] }} {{ hostvars[groups['docker_swarm_master']]['ansible_default_ipv4']['address'] }}:2377"
   ignore_errors: yes
   with_items:
-  - "{{ groups['docker_swarm_master'] }}"
+  - "{{ groups['docker_swarm_worker'] }}"
   when: 
     - swarm_status.rc != 0
-    - inventory_hostname in groups['docker_swarm_worker']
+    - inventory_hostname in groups['swarm-manager']
