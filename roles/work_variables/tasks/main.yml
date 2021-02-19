@@ -35,6 +35,6 @@
   delegate_to: localhost
   register: test
 
-- name: Show
-  debug:
-    msg: var=test
+# - name: Show
+#   debug:
+#     msg: var=test
