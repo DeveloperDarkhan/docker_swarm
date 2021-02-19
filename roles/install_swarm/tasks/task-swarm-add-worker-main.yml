@@ -43,9 +43,12 @@
 
 - name: Test4
   debug:
-    msg: "{{ hostvars[item[0]]['ansible_facts'] }}"
+    msg: "{{ hostvars[inventory_hostname].item}}"
   with_items:
     - groups['swarm-manager']
   when:
     - inventory_hostname in groups['swarm-manager']
   ignore_errors: yes
+
+  # inventory_hostname
+  # hostvars[inventory_hostname].ansible_host
