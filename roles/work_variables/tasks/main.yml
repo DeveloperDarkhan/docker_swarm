@@ -52,7 +52,7 @@
 
 - name: Template a file to /etc/file.conf
   template:
-    src: /templates/create-self-certs.sh
+    src: /templates/create-self-certs.sh.j2
     dest: /root/create-self-certs.sh
     owner: root
     group: root
