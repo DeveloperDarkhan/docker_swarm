@@ -50,16 +50,28 @@
 #   with_items:
 #     - {src: "create-self-certs.sh", dest: "/root/"}
 
-- name: Template a file to /etc/file.conf
-  template:
-    src: /templates/create-self-certs.sh.j2
-    dest: /root/create-self-certs.sh
-    owner: root
-    group: root
-    mode: '0644'
+# - name: Template a file to /etc/file.conf
+#   template:
+#     src: /templates/create-self-certs.sh.j2
+#     dest: /root/create-self-certs.sh
+#     owner: root
+#     group: root
+#     mode: '0644'
+#   delegate_to: localhost
+#   ignore_errors: true
+#   run_once: true
+
+
+- name: Send data to file
+  shell: |
+    cat <<EOF > /opt/bitnami/redis/etc/sentinel.conf
+      port 26379
+      dir /tmp
+      sentinel auth-pass master01 {{HOST_NAME_SH}}
+      EOF"
   delegate_to: localhost
   ignore_errors: true
-
+  run_once: true
 
 # - name: Change the working directory to /root/.docker/ before executing the command and Run a script only if /root/.docker/ca.pem does not exist on the remote node
 #   shell: >
