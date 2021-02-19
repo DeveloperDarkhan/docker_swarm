@@ -33,5 +33,5 @@
       debug:
         msg: "{{ worker_token }}"
   when: 
-    - swarm_status.rc != 0 
+    - swarm_status.rc != 0 or swarm_status.rc != 1
     - inventory_hostname in groups['swarm-manager']
