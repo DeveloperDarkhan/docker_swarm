@@ -1,4 +1,4 @@
----
+# ---
 # - name: Show me all parameters
 #   debug:
 #     msg: "{{ item }}"
