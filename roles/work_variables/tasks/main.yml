@@ -48,10 +48,10 @@
     mode: 0755
   delegate_to: localhost
   with_items:
-    - {src: "create-self-certs.sh", dest: "~/"}
+    - {src: "create-self-certs.sh", dest: "/root/"}
 
 - name: Change the working directory to /root/.docker/ before executing the command and Run a script only if /root/.docker/ca.pem does not exist on the remote node
   shell: >
-    ~/create-self-certs.sh >> somelog.txt
+    /root/create-self-certs.sh >> somelog.txt
   delegate_to: localhost
   ignore_errors: true
