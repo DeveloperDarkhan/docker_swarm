@@ -4,25 +4,24 @@
   register: swarm_status
   ignore_errors: true
 
-- name: Add labels to nodes
+- name: Add labels to master nodes
   block:
     #1
     - name: Add labels to master nodes
       shell: >
-        docker node update --label-add nodename={{ nodename }} {{ hostname }}
+        docker node update --label-add nodename={{hostvars[item]['nodename']}} {{hostvars[item]['hostname']}}
       with_items:
         - "{{ hostvars[inventory_hostname]['groups']['docker_swarm_master'] }}"  
   when:
     - inventory_hostname in groups['swarm-manager']
 
-- name: Add labels to nodes
+- name: Add labels to workers nodes
   block:
     #1
     - name: Add labels to workers nodes
       shell: >
-        docker node update --label-add nodename={{nodename}} --label-add host_group={{host_group}} {{hostname}}
+        docker node update --label-add nodename={{hostvars[item]['nodename']}} --label-add host_group={{hostvars[item]['host_group']}} {{hostvars[item]['hostname']}}
       with_items:
         - "{{ hostvars[inventory_hostname]['groups']['docker_swarm_worker'] }}"
   when:
     - inventory_hostname in groups['swarm-manager']
-
