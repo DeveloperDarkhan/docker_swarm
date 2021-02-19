@@ -10,5 +10,5 @@
   with_items:
    - "{{ hostvars[inventory_hostname]['groups']['swarm-manager'] }}"
   when: 
-    - swarm_status.rc != 0
+    - swarm_status.rc == 1
     - inventory_hostname in groups['docker_swarm_master']
