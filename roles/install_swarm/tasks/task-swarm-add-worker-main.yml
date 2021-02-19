@@ -52,7 +52,7 @@
 
 - name: Test5
   debug:
-    msg: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']}}"
+    msg: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}"
   with_items:
     - groups['swarm-manager']
   when:
