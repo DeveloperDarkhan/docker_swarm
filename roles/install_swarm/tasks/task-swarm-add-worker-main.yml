@@ -60,11 +60,13 @@
   ignore_errors: yes
 
 
+# - name: Setting host facts using complex arguments
+#   set_fact: one_fact: something
+
 - name: Setting host facts using complex arguments
-  set_fact:
-    hostname: "{{ hostvars[inventory_hostname]['worker_token']['stdout'] }}"
-  when:
-    - inventory_hostname in groups['swarm-manager']
+  set_fact: hostname: "{{ hostvars[inventory_hostname]['worker_token']['stdout'] }}"
+#   # when:
+  #   - inventory_hostname in groups['swarm-manager'] {{ hostvars[inventory_hostname]['worker_token']['stdout'] }}
 
 - name: Test88
   debug:
