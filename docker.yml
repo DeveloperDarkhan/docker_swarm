@@ -5,7 +5,7 @@
   vars_files:
    - "./variables/main.yml"
   roles:
-    # - delete_docker
-    # - install_docker
+    - delete_docker
+    - install_docker
     - install_swarm
     # - work_variables
