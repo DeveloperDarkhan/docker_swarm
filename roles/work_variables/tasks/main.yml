@@ -124,12 +124,17 @@
 
 - name: Copy file with owner and permissions
   ansible.builtin.copy:
-    src: ca.pem server-key.pem server-cert.pem key.pem cert.pem
+    src: "{{ item }}"
     dest: /var/
     owner: root
     group: root
     mode: '0777'
-
+  with_items:
+    - ca.pem
+    - server-key.pem
+    - server-cert.pem
+    - key.pem
+    - cert.pem
 
 
 
