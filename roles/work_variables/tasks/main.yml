@@ -113,7 +113,7 @@
 
 - name: Copy file with owner and permissions
   ansible.builtin.copy:
-    src: /c*
+    src: ca.pem
     dest: /var/
     owner: root
     group: root
