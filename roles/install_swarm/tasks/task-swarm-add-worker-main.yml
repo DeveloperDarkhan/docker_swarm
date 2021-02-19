@@ -50,6 +50,15 @@
     - inventory_hostname in groups['swarm-manager']
   ignore_errors: yes
 
+- name: Test5
+  debug:
+    msg: "{{ hostvars[inventory_hostname]}}"
+  with_items:
+    - groups['docker_swarm_worker']
+  when:
+    - inventory_hostname in groups['swarm-manager']
+  ignore_errors: yes
+
   # inventory_hostname
   # hostvars[inventory_hostname].ansible_host
   # {{ hostvars['your_host_group'].ansible_host }}
