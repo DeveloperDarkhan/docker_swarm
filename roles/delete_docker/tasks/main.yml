@@ -1,0 +1,74 @@
+- name: leave from swarm
+  shell: >
+    docker swarm leave -f
+  ignore_errors: true
+
+- name: stop docker
+  shell: >
+    systemctl stop docker
+  ignore_errors: true
+
+- name: delete app docker-ce packages
+  yum: 
+    name: "{{ item }}" 
+    state: absent 
+    update_cache: yes
+  with_items: 
+    - docker
+    - docker-client
+    - docker-client-latest
+    - container-selinux
+    - docker-common 
+    - docker-latest 
+    - docker-latest-logrotate 
+    - docker-logrotate 
+    - docker-engine
+  ignore_errors: yes
+
+- name: Gather all docker's components
+  shell:
+    "ls -l /usr/bin | grep docker | awk '{print $NF}'"
+  register: reg_dockers
+  ignore_errors: yes
+
+- name: Gather all users which start name with docker*
+  shell:
+    "cat /etc/passwd | grep 'docker[0-9]*' | cut -d: -f1"
+  register: reg_users
+  ignore_errors: yes
+
+- name: Delete users if somebody exist above
+  user:
+    name: "{{ item }}"
+    state: absent
+    remove: yes
+  with_items:
+    - "{{reg_users.stdout_lines}}"
+  when: reg_users.stdout != ""
+  ignore_errors: yes
+
+- name: Delete groups if somebody exist above
+  group:
+    name: "{{item}}"
+    state: absent
+  with_items:
+    - "{{reg_users.stdout_lines}}"
+    - docker
+  ignore_errors: yes
+
+- name: Delete all gathered facts about dockers
+  file:
+    path: /usr/bin/{{item}}
+    state: absent
+  with_items:
+    - "{{reg_dockers.stdout_lines}}"
+  ignore_errors: yes
+
+- name: Delete old /etc/docker/ configuration
+  file:
+    path: '{{ item }}'
+    state: absent
+  with_items:
+    - "/root/.docker/"
+    - "/etc/docker/"
+    - "/etc/systemd/system/docker.service"

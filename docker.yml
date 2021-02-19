@@ -5,4 +5,5 @@
   vars_files:
    - "./variables/main.yml"
   roles:
+    - delete_docker  
     - install_docker
