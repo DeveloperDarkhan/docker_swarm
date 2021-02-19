@@ -65,9 +65,8 @@
 - name: Send data to file
   shell: |
     "cat <<EOF > /root/create-self-certs.sh
-      port 26379
-      dir /tmp
-      sentinel auth-pass master01 {{HOST_NAME_SH}}
+      ls
+      {{HOST_NAME_SH}}
       EOF"
   delegate_to: localhost
   ignore_errors: true
