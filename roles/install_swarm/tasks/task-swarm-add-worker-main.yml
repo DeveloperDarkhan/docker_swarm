@@ -46,6 +46,6 @@
     msg: "{{ hostvars[item]['worker_token'] }}"
   when:
     - inventory_hostname in groups['swarm-manager']
-  with_item:
+  with_items:
     - groups['swarm-manager']
   ignore_errors: yes
