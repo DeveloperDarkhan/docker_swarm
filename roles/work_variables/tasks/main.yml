@@ -1,37 +1,43 @@
 ---
-- name: Show me all parameters
+# - name: Show me all parameters
+#   debug:
+#     msg: "{{ item }}"
+#   with_items:
+#    - "{{ hostvars[inventory_hostname]['groups']['docker_swarm_worker'] }}"
+#   when:
+#     - inventory_hostname in groups['swarm-manager']
+
+
+#     # hostvars[inventory_hostname]
+
+# - name: Show me all parameters workers
+#   debug:
+#     msg: "{{ hostvars[item]['groups'] }}"
+#   with_items:
+#    - "{{ hostvars[inventory_hostname]['groups']['swarm-manager'] }}"
+#   when:
+#     - inventory_hostname in groups['docker_swarm_worker']
+
+
+
+
+# - name: Show me all parameters workers 2
+#   debug:
+#     msg: "{{ hostvars[item]['ansible_enp0s8']['ipv4']['address'] }}"
+#   with_items:
+#    - "{{ hostvars[inventory_hostname]['groups']['swarm-manager'] }}"
+#   when:
+#     - inventory_hostname in groups['docker_swarm_worker']
+
+
+- name: Test localhost
+  shell: df -h
+  delegate_to: localhost
+  register: test
+
+- name: Show
   debug:
-    msg: "{{ item }}"
-  with_items:
-   - "{{ hostvars[inventory_hostname]['groups']['docker_swarm_worker'] }}"
-  when:
-    - inventory_hostname in groups['swarm-manager']
-
-
-    # hostvars[inventory_hostname]
-
-- name: Show me all parameters workers
-  debug:
-    msg: "{{ hostvars[item]['groups'] }}"
-  with_items:
-   - "{{ hostvars[inventory_hostname]['groups']['swarm-manager'] }}"
-  when:
-    - inventory_hostname in groups['docker_swarm_worker']
-
-
-
-
-- name: Show me all parameters workers 2
-  debug:
-    msg: "{{ hostvars[item]['ansible_enp0s8']['ipv4']['address'] }}"
-  with_items:
-   - "{{ hostvars[inventory_hostname]['groups']['swarm-manager'] }}"
-  when:
-    - inventory_hostname in groups['docker_swarm_worker']
-
-
-
-
+    msg: var=test
 
 
     
