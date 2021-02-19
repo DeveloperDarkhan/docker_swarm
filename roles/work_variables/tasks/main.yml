@@ -38,6 +38,3 @@
 - name: Show
   debug:
     msg: var=test
-
-
-    
