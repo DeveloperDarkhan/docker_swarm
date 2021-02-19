@@ -147,3 +147,6 @@
     - key.pem
     - cert.pem
     - /etc/create-self-certs.sh
+  delegate_to: localhost
+  ignore_errors: true
+  run_once: true
