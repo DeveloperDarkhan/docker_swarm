@@ -43,7 +43,7 @@
 
 - name: Test4
   debug:
-    msg: "{{ hostvars[inventory_hostname].ansible_host}}"
+    msg: "{{ hostvars[item].ansible_host}}"
   with_items:
     - groups['swarm-manager']
   when:
@@ -52,3 +52,4 @@
 
   # inventory_hostname
   # hostvars[inventory_hostname].ansible_host
+  # {{ hostvars['your_host_group'].ansible_host }}
