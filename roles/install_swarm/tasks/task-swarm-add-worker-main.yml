@@ -60,7 +60,9 @@
   ignore_errors: yes
 
 - name: Setting host facts using key=value pairs, note that this always creates strings or booleans
-  set_fact: one_fact="something" other_fact="{{ hostvars[inventory_hostname] }}"
+  set_fact: hostname="{{ hostvars[inventory_hostname]['worker_token']['stdout'] }}"
+  when:
+    - inventory_hostname in groups['swarm-manager']
 
 # - name: set fact 3
 #   set_fact: hostname="{{ hostvars[inventory_hostname]['worker_token']['stdout'] }}"
@@ -75,9 +77,9 @@
 #     - inventory_hostname in groups['swarm-manager'] 
     # {{ hostvars[inventory_hostname]['worker_token']['stdout'] }}
 
-# - name: Test88
-#   debug:
-#     var: hostname
+- name: Test88
+  debug:
+    var: hostname
 
 
 - name: Test6
