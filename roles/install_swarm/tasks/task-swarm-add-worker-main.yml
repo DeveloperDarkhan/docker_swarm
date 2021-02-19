@@ -62,7 +62,7 @@
 - name: Setting host facts using key=value pairs, note that this always creates strings or booleans
   set_fact: 
     token: "{{ hostvars[inventory_hostname]['worker_token']['stdout'] }}"
-    host: "{{ hostvars[inventory_hostname] }}"
+    host: "{{ hostvars[inventory_hostname][ansible_enp0s8][ipv4.address] }}"
   when:
     - inventory_hostname in groups['swarm-manager']
 
