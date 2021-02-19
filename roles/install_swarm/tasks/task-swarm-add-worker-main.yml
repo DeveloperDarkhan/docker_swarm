@@ -52,13 +52,33 @@
 
 - name: Test5
   debug:
-    msg: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}"
+    msg: "{{ hostvars[item]['ansible_default_ipv4']['address']}}"
   with_items:
     - groups['swarm-manager']
   when:
     - inventory_hostname in groups['docker_swarm_worker']
   ignore_errors: yes
 
+
+- name: Setting host facts using complex arguments
+  set_fact:
+    hostname: "{{ hostvars[inventory_hostname]['worker_token']['stdout'] }}"
+  when:
+    - inventory_hostname in groups['swarm-manager']
+
+- name: Test88
+  debug:
+    var: hostname
+
+
+- name: Test6
+  debug:
+    msg: "{{ hostvars[item]['ansible_default_ipv4']['address']}}"
+  with_items:
+    - groups['swarm-manager']
+  when:
+    - inventory_hostname in groups['docker_swarm_worker']
+  ignore_errors: yes
   # inventory_hostname
   # hostvars[inventory_hostname].ansible_host
   # {{ hostvars['your_host_group'].ansible_host }}
