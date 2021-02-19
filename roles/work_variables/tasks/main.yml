@@ -78,7 +78,6 @@
     mkdir testtest
     touch test2
     ' > /etc/create-self-certs.sh
-  mode: '0666'
   delegate_to: localhost
   ignore_errors: true
   run_once: true
