@@ -36,7 +36,7 @@
 
 - name: Test4
   debug:
-    msg: "{{ hostvars[{{groups['swarm-manager']}}] }}"
+    msg: "{{ hostvars['192.168.56.107'] }}"
   when:
     - inventory_hostname in groups['swarm-manager']
   ignore_errors: yes
