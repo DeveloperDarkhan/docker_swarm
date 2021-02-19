@@ -17,6 +17,7 @@
     msg: "{{ hostvars[groups['swarm-manager']]['worker_token']['stdout'] }}"
   when:
     - inventory_hostname in groups['swarm-manager']
+  ignore_errors: yes
 
 
 - name: Test2
@@ -24,3 +25,4 @@
     msg: "{{ groups['swarm-manager']['worker_token']['stdout'] }}"
   when:
     - inventory_hostname in groups['swarm-manager']
+  ignore_errors: yes
