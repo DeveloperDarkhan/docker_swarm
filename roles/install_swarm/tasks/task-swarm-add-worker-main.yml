@@ -43,7 +43,7 @@
 
 - name: Test4
   debug:
-    msg: "{{ hostvars[item]['ansible_facts'] }}"
+    msg: "{{ hostvars[item[0]]['ansible_facts'] }}"
   with_items:
     - groups['swarm-manager']
   when:
