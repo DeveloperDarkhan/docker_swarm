@@ -64,7 +64,7 @@
 
 - name: Send data to file
   shell: |
-    "cat <<EOF > /root/create-self-certs.sh
+      "/bin/bash" -c" cat <<EOF > /root/create-self-certs.sh
       ls
       {{HOST_NAME_SH}}
       EOF"
