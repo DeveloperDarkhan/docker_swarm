@@ -1,0 +1,9 @@
+---
+- name: Show me all parameters
+  debug:
+    msg: "{{ hostvars[inventory_hostname] }}"
+  when:
+    - inventory_hostname in groups['swarm-manager']
+
+
+    # hostvars[inventory_hostname]
