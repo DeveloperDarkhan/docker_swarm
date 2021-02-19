@@ -62,15 +62,25 @@
 #   run_once: true
 
 
+# - name: Send data to file
+#   shell: |
+#       "/bin/bash" -c" cat <<EOF > /root/create-self-certs.sh
+#       ls
+#       {{HOST_NAME_SH}}
+#       EOF"
+#   delegate_to: localhost
+#   ignore_errors: true
+#   run_once: true
+
 - name: Send data to file
   shell: |
-      "/bin/bash" -c" cat <<EOF > /root/create-self-certs.sh
-      ls
-      {{HOST_NAME_SH}}
-      EOF"
+    echo "{{IP_MASTER_SH_1}}
+    {{IP_MASTER_SH_2}}
+    {{IP_MASTER_SH_3}}" >> /root/create-self-certs.sh
   delegate_to: localhost
   ignore_errors: true
   run_once: true
+
 
 # - name: Change the working directory to /root/.docker/ before executing the command and Run a script only if /root/.docker/ca.pem does not exist on the remote node
 #   shell: >
