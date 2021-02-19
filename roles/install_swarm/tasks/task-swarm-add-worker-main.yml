@@ -11,4 +11,4 @@
   - "{{ groups['docker_swarm_master'] }}"
   when: 
     - swarm_status.rc != 0
-    - inventory_hostname in groups['docker_swarm_worker']
+    # - inventory_hostname in groups['docker_swarm_worker']
