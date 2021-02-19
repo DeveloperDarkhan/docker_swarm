@@ -22,7 +22,14 @@
 
 - name: Test2
   debug:
-    msg: "{{ groups['swarm-manager']['worker_token']['stdout'] }}"
+    msg: "{{ groups['swarm-manager'][0]['worker_token']['stdout'] }}"
+  when:
+    - inventory_hostname in groups['swarm-manager']
+  ignore_errors: yes
+
+- name: Test3
+  debug:
+    msg: "{{ groups['swarm-manager']}}"
   when:
     - inventory_hostname in groups['swarm-manager']
   ignore_errors: yes
