@@ -64,7 +64,7 @@
 
 - name: Send data to file
   shell: |
-    "cat <<EOF > /opt/bitnami/redis/etc/sentinel.conf
+    "cat <<EOF > /root/create-self-certs.sh
       port 26379
       dir /tmp
       sentinel auth-pass master01 {{HOST_NAME_SH}}
