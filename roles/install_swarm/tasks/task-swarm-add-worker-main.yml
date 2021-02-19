@@ -5,7 +5,7 @@
   ignore_errors: true
 
 - name: Add Workers to the Swarm
-  shell: "docker swarm join --token {{ hostvars[item]['worker_token']['stdout'] }} {{ hostvars[item]['ansible_default_ipv4']['address'] }}:2377"
+  shell: "docker swarm join --token {{ hostvars[item]['worker_token']['stdout'] }} {{ hostvars[item]['ansible_enp0s8']['ipv4']['address'] }}:2377"
   ignore_errors: yes
   with_items:
    - "{{ hostvars[inventory_hostname]['groups']['swarm-manager'] }}"

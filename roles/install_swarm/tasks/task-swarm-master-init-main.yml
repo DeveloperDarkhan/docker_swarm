@@ -15,7 +15,7 @@
     - name: Initialize Docker Swarm on first node
       shell: >
         docker swarm init
-        --advertise-addr={{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:2377
+        --advertise-addr={{ hostvars[inventory_hostname]['ansible_enp0s8']['ipv4']['address'] }}:2377
     #2
     - name: Get the Manager join-token
       shell: docker swarm join-token --quiet manager
