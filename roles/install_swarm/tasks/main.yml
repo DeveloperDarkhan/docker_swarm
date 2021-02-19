@@ -1,0 +1,14 @@
+- name: Initializing master swarm
+  import_tasks: task-swarm-master-init-main.yml
+
+- name: Add masters to swarm
+  import_tasks: task-swarm-add-master-main.yml
+
+- name: Add workers to swarm
+  import_tasks: task-swarm-add-worker-main.yml
+
+# - name: Change hostnames
+#   import_tasks: task-swarm-change-hostname.yml
+
+# - name: Add labels to nodes
+#   import_tasks: task-swarm-add-labels.yml

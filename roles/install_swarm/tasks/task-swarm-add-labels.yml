@@ -1,0 +1,49 @@
+---
+- name: Check if Swarm has already been Initialized
+  shell: docker node ls
+  register: swarm_status
+  ignore_errors: true
+
+- name: Add labels to nodes
+  block:
+    #1
+    - name: Add labels to master nodes
+      shell: >
+        docker node update --label-add nodename={{ nodename }} {{ hostname }}
+
+      # with_items:
+      #   - "{{ groups['docker_swarm_master'] }}"
+
+    # #2
+    # - name: Add labels to worker nodes
+    #   shell: >
+    #     docker node update --label-add nodename={{ nodename }} --label-add host_group={{ host_group }} {{ hostname }}
+    #   with_items:
+    #     - "{{ groups['docker_swarm_worker'] }}"
+
+  when:
+    - inventory_hostname in groups['docker_swarm_master']
+
+- name: Add labels to nodes
+  block:
+    #1
+    - name: Add labels to workers nodes
+      shell: |
+        docker node update --label-add nodename=worker1 --label-add host_group=worker test-app-swarm-worker-1.tsb.kz; 
+        docker node update --label-add nodename=worker2 --label-add host_group=worker test-app-swarm-worker-2.tsb.kz
+
+      # with_items:
+      #   - "{{ groups['docker_swarm_master'] }}"
+
+    # #2
+    # - name: Add labels to worker nodes
+    #   shell: >
+    #     docker node update --label-add nodename={{ nodename }} --label-add host_group={{ host_group }} {{ hostname }}
+    #   with_items:
+    #     - "{{ groups['docker_swarm_worker'] }}"
+
+  when:
+    - inventory_hostname in groups['swarm-manager']
+
+
+

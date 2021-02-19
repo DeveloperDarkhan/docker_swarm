@@ -58,7 +58,8 @@
         chdir: /root/.docker/
         creates: /root/.docker/ca.pem
       ignore_errors: true
-
+      when:
+        - inventory_hostname in groups['swarm-manager']
     
     - name: restart daemon-reload
       shell: 
