@@ -7,5 +7,5 @@
   roles:
     # - delete_docker  
     # - install_docker
-    # - install_swarm
-    - work_variables
+    - install_swarm
+    # - work_variables
