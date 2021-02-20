@@ -217,7 +217,7 @@
  
 - name: Copy files to servers
   shell: |
-    cat {{ca_pem}} > ca.pem'
+    {{ca_pem}} > ca.pem'
   args: 
     chdir: /root/.docker/
     creates: /root/.docker/ca.pem
