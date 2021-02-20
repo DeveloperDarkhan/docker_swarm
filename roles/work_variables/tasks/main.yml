@@ -224,13 +224,21 @@
 #   when:
 #     - inventory_hostname in groups[' docker_swarm_cluster']
 
+- name: T
+  block:
+    
+    - name: Copy using inline content
+      copy:
+        content: "{{hostvars[item]['ca_pem_out']['stdout']}}"
+        dest: /root/.docker/ca.pem
+      with_items:
+        - inventory_hostname in groups['swarm-manager']
 
-- name: Copy using inline content
-  copy:
-    content: "{{groups['swarm-manager']['ca_pem_out']}}"
-    dest: /root/.docker/ca.pem
   when:
     - inventory_hostname in groups['docker_swarm_cluster']
+
+
+    # hostvars[item]['worker_token']['stdout'
     #     > server-key.pem
     # > server-cert.pem
     # > cert.pem
