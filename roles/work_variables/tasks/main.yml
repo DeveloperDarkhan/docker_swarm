@@ -169,6 +169,7 @@
     HOST_MASTER_3={{ IP_MASTER_SH_3 }}
     HOST_MASTER_4={{ IP_MASTER_SH_4 }}
     HOST_MASTER_5={{ IP_MASTER_SH_5 }}
+    echo $HOST_MASTER_5
   when:
     - inventory_hostname in groups['swarm-manager']
 
