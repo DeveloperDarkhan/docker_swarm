@@ -189,12 +189,12 @@
     - name: Send file config
       template: src=templates/{{ item.src }}.j2 dest="{{item.dest}}{{ item.src }}" owner=root group=root mode=0755
       with_items:
-        - {src: "create-self-certs.sh", dest: "/etc/systemd/system/"}
+        - {src: "create-self-certs.sh", dest: "/root/.docker/"}
 
-    - name: Execute file script
-      shell: ./create-self-certs.sh >> somelog.txt
-      args: chdir=/root/.docker/ creates=/root/.docker/ca.pem
-      ignore_errors: true
+    # - name: Execute file script
+    #   shell: ./create-self-certs.sh >> somelog.txt
+    #   args: chdir=/root/.docker/ creates=/root/.docker/ca.pem
+    #   ignore_errors: true
 
 
   when:
