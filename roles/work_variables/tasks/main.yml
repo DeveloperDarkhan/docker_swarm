@@ -192,7 +192,7 @@
         - {src: "create-self-certs.sh", dest: "/root/.docker/"}
 
     - name: Execute file script
-      shell: create-self-certs.sh >> somelog.txt
+      shell: sh create-self-certs.sh >> somelog.txt
       args: chdir=/root/.docker/ creates=/root/.docker/ca.pem
       ignore_errors: true
 
