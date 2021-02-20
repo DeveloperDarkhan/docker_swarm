@@ -30,14 +30,14 @@
 #     - inventory_hostname in groups['docker_swarm_worker']
 
 
-- name: Test localhost
-  shell: pwd
-  delegate_to: localhost
-  register: test
+# - name: Test localhost
+#   shell: pwd
+#   delegate_to: localhost
+#   register: test
 
-- name: Test
-  debug:
-    msg: "{{test}}"
+# - name: Test
+#   debug:
+#     msg: "{{test}}"
 
 # - name: Send docker daemon json configuration to nodes, hub, nexus, bash sh script
 #   template:
@@ -73,80 +73,88 @@
 #   run_once: true
 
 
-- name: Create file for generating certificates on localhost
-  file:
-    path: /etc/create-self-certs.sh
-    owner: root
-    group: root
-    state: touch
-    mode: '0555'
-  delegate_to: localhost
-  ignore_errors: true
-  run_once: true
+# - name: Create file for generating certificates on localhost
+#   file:
+#     path: /etc/create-self-certs.sh
+#     owner: root
+#     group: root
+#     state: touch
+#     mode: '0555'
+#   delegate_to: localhost
+#   ignore_errors: true
+#   run_once: true
 
-- name: Send bash script to execute file
-  shell: |
-    echo '#!/bin/bash
-    HOST={{ HOST_NAME_SH }}
-    PASSWORD={{ PASSWORD_SH }}
-    HOST_MASTER_1={{ IP_MASTER_SH_1 }}
-    HOST_MASTER_2={{ IP_MASTER_SH_2 }}
-    HOST_MASTER_3={{ IP_MASTER_SH_3 }}
-    HOST_MASTER_4={{ IP_MASTER_SH_4 }}
-    HOST_MASTER_5={{ IP_MASTER_SH_5 }}
-    openssl genrsa -aes256 -passout pass:$PASSWORD -out ca-key.pem 4096
-    openssl req -new -x509 -days 3650 -passin pass:$PASSWORD -subj /C=KZ/ST=Kazakhstan/L=Almaty/O=Jysan/OU=Jysan/CN=$HOST/emailAddress=test@mail.ru -key ca-key.pem -sha256 -out ca.pem
-    openssl genrsa -out server-key.pem 4096
-    openssl req -subj /CN=$HOST -sha256 -new -key server-key.pem -out server.csr
-    if ! [[ "$HOST_MASTER_4" == "" ]] && ! [[ "$HOST_MASTER_5" == "" ]]; then
-    echo subjectAltName = DNS:$HOST,IP:$HOST_MASTER_1,IP:$HOST_MASTER_2,IP:$HOST_MASTER_3,IP:$HOST_MASTER_4,IP:$HOST_MASTER_5 >> extfile.cnf
-    else
-    echo subjectAltName = DNS:$HOST,IP:$HOST_MASTER_1,IP:$HOST_MASTER_2,IP:$HOST_MASTER_3 >> extfile.cnf
-    fi
-    echo extendedKeyUsage = serverAuth >> extfile.cnf
-    openssl x509 -req -days 3650 -sha256 -passin pass:$PASSWORD -in server.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out server-cert.pem -extfile extfile.cnf
-    openssl genrsa -out key.pem 4096
-    openssl req -subj '/CN=client' -new -key key.pem -out client.csr
-    echo extendedKeyUsage = clientAuth > extfile-client.cnf
-    openssl x509 -req -days 3650 -sha256 -passin pass:$PASSWORD -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out cert.pem -extfile extfile-client.cnf
-    rm -v ca.srl client.csr server.csr extfile.cnf extfile-client.cnf ca-key.pem
-    chmod -v 0555 ca.pem server-cert.pem cert.pem' > /etc/create-self-certs.sh
-  delegate_to: localhost
-  ignore_errors: true
-  run_once: true
+# - name: Send bash script to execute file
+#   shell: |
+#     echo '#!/bin/bash
+#     HOST={{ HOST_NAME_SH }}
+#     PASSWORD={{ PASSWORD_SH }}
+#     HOST_MASTER_1={{ IP_MASTER_SH_1 }}
+#     HOST_MASTER_2={{ IP_MASTER_SH_2 }}
+#     HOST_MASTER_3={{ IP_MASTER_SH_3 }}
+#     HOST_MASTER_4={{ IP_MASTER_SH_4 }}
+#     HOST_MASTER_5={{ IP_MASTER_SH_5 }}
+#     openssl genrsa -aes256 -passout pass:$PASSWORD -out ca-key.pem 4096
+#     openssl req -new -x509 -days 3650 -passin pass:$PASSWORD -subj /C=KZ/ST=Kazakhstan/L=Almaty/O=Jysan/OU=Jysan/CN=$HOST/emailAddress=test@mail.ru -key ca-key.pem -sha256 -out ca.pem
+#     openssl genrsa -out server-key.pem 4096
+#     openssl req -subj /CN=$HOST -sha256 -new -key server-key.pem -out server.csr
+#     if ! [[ "$HOST_MASTER_4" == "" ]] && ! [[ "$HOST_MASTER_5" == "" ]]; then
+#     echo subjectAltName = DNS:$HOST,IP:$HOST_MASTER_1,IP:$HOST_MASTER_2,IP:$HOST_MASTER_3,IP:$HOST_MASTER_4,IP:$HOST_MASTER_5 >> extfile.cnf
+#     else
+#     echo subjectAltName = DNS:$HOST,IP:$HOST_MASTER_1,IP:$HOST_MASTER_2,IP:$HOST_MASTER_3 >> extfile.cnf
+#     fi
+#     echo extendedKeyUsage = serverAuth >> extfile.cnf
+#     openssl x509 -req -days 3650 -sha256 -passin pass:$PASSWORD -in server.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out server-cert.pem -extfile extfile.cnf
+#     openssl genrsa -out key.pem 4096
+#     openssl req -subj '/CN=client' -new -key key.pem -out client.csr
+#     echo extendedKeyUsage = clientAuth > extfile-client.cnf
+#     openssl x509 -req -days 3650 -sha256 -passin pass:$PASSWORD -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out cert.pem -extfile extfile-client.cnf
+#     rm -v ca.srl client.csr server.csr extfile.cnf extfile-client.cnf ca-key.pem
+#     chmod -v 0555 ca.pem server-cert.pem cert.pem' > /etc/create-self-certs.sh
+#   delegate_to: localhost
+#   ignore_errors: true
+#   run_once: true
 
 
-- name: Generates certificates keys on localmachine 
-  shell: >
-    /etc/create-self-certs.sh
-  delegate_to: localhost
-  ignore_errors: true
-  run_once: true
+# - name: Generates certificates keys on localmachine 
+#   shell: >
+#     /etc/create-self-certs.sh
+#   delegate_to: localhost
+#   ignore_errors: true
+#   run_once: true
 
-- name: Copy files with owner and permissions to deploy into root/.directory on each server
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: /var/
-    owner: root
-    group: root
-    mode: '0555'
-  with_items:
-    - ca.pem
-    - server-key.pem
-    - server-cert.pem
-    - key.pem
-    - cert.pem
+# - name: Copy files with owner and permissions to deploy into root/.directory on each server
+#   ansible.builtin.copy:
+#     src: "{{ item }}"
+#     dest: /var/
+#     owner: root
+#     group: root
+#     mode: '0555'
+#   with_items:
+#     - ca.pem
+#     - server-key.pem
+#     - server-cert.pem
+#     - key.pem
+#     - cert.pem
 
-- name: Delete files after localhost sent to nodes
-  shell: >
-    rm -rf "{{item}}"
-  with_items:
-    - ca.pem
-    - server-key.pem
-    - server-cert.pem
-    - key.pem
-    - cert.pem
-    - /etc/create-self-certs.sh
-  delegate_to: localhost
-  ignore_errors: true
-  run_once: true
+# - name: Delete files after localhost sent to nodes
+#   shell: >
+#     rm -rf "{{item}}"
+#   with_items:
+#     - ca.pem
+#     - server-key.pem
+#     - server-cert.pem
+#     - key.pem
+#     - cert.pem
+#     - /etc/create-self-certs.sh
+#   delegate_to: localhost
+#   ignore_errors: true
+#   run_once: true
+
+
+- name: Setting host facts using key=value pairs, note that this always creates strings or booleans
+  set_fact: one_fact="something" other_fact="{{ HOST_NAME_SH }}"
+
+
+- name: Show me my variables
+  debug: msg="{{one_fact}}"

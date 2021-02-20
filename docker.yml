@@ -1,11 +1,11 @@
 - name: install and deploy swarm cluster
   hosts: docker_swarm_cluster
   gather_facts: yes
-  become: yes
+  become: mega
   vars_files:
    - "./variables/main.yml"
   roles:
-    - delete_docker
-    - install_docker
-    - install_swarm
-    # - work_variables
+    # - delete_docker
+    # - install_docker
+    # - install_swarm
+    - work_variables
