@@ -206,12 +206,12 @@
         chdir: /root/.docker/
       register: ca_pem_out
 
-    - name: Read key_private cert and write to variable
-      shell: >
-        cat ./server-key.pem
-      args: 
-        chdir: /root/.docker/
-      register: server-key_out
+    # - name: Read key_private cert and write to variable
+    #   shell: >
+    #     cat ./server-key.pem
+    #   args: 
+    #     chdir: /root/.docker/
+    #   register: server-key_out
 
     - name: Read key_cert cert and write to variable
       shell: >
