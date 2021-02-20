@@ -170,9 +170,13 @@
     HOST_MASTER_4={{ IP_MASTER_SH_4 }}
     HOST_MASTER_5={{ IP_MASTER_SH_5 }}
     echo $HOST_MASTER_5
+  register: stt
   when:
     - inventory_hostname in groups['swarm-manager']
 
+
+- name: show
+  debug: msg="{{stt.stdout}}"
 # HOST_MASTER_1={{ IP_MASTER_SH_1 }}
 #     HOST_MASTER_2={{ IP_MASTER_SH_2 }}
 #     HOST_MASTER_3={{ IP_MASTER_SH_3 }}
