@@ -154,7 +154,7 @@
 
 - name: Setting host facts using key=value pairs, note that this always creates strings or booleans
   set_fact:
-    hosts: ["{{ IP_MASTER_SH_1 }}", "{{ IP_MASTER_SH_2 }}", "{{ IP_MASTER_SH_3 }}"]
+    hosts: ["{{ IP_MASTER_SH_1 }}", "{{ IP_MASTER_SH_2 }}", "{{ IP_MASTER_SH_3 }}", "{{ IP_MASTER_SH_7 }}"]
 
 
 - name: Show me my variables
