@@ -201,7 +201,7 @@
 
     - name: Read files and write to variable
       shell: >
-        echo ./ca.pem
+        cat ./ca.pem
       args: 
         chdir: /root/.docker/
       register: ca_pem
