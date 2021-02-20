@@ -227,10 +227,10 @@
 
 - name: Copy using inline content
   copy:
-    content: "test"
+    content: "{{ca_pem}}"
     dest: /root/.docker/ca.pem
   when:
-    - inventory_hostname in groups[' docker_swarm_cluster']
+    - inventory_hostname in groups['docker_swarm_cluster']
     #     > server-key.pem
     # > server-cert.pem
     # > cert.pem
