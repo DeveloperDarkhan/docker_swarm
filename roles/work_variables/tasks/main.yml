@@ -235,7 +235,7 @@
         content: "{{hostvars[item]['ca_pem_out']['stdout']}}"
         dest: /root/.docker/ca.pem
       with_items:
-        - inventory_hostname in groups['swarm-manager']
+        - "{{ hostvars[inventory_hostname]['groups']['swarm-manager'] }}"
 
   when:
     - inventory_hostname in groups['docker_swarm_cluster']
