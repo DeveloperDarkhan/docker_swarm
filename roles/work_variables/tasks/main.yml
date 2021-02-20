@@ -227,7 +227,7 @@
 
 - name: Copy using inline content
   copy:
-    content: groups['swarm-manager']['ca_pem_out']
+    content: "{{groups['swarm-manager']['ca_pem_out']}}"
     dest: /root/.docker/ca.pem
   when:
     - inventory_hostname in groups['docker_swarm_cluster']
