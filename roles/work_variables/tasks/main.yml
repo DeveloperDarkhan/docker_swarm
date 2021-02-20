@@ -194,10 +194,16 @@
     - name: Execute file script
       shell: >
         ./create-self-certs.sh >> somelog.txt
-      args:
-        chdir: /root/.docker/
-        creates: /root/.docker/ca.pem
+      args: chdir=/root/.docker/ creates=/root/.docker/ca.pem
       ignore_errors: true
+
+    - name: Read files and write to variable
+      shell: >
+        echo ./ca.pem
+      args: chdir=/root/.docker/
+      register: ca_pem
+      set_fact: ca_pem={{set_fact.stdout}}
+
 
   when:
     - inventory_hostname in groups['swarm-manager']
