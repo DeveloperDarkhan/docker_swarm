@@ -202,7 +202,8 @@
     - name: Read files and write to variable
       shell: >
         echo ./ca.pem
-      args: chdir=/root/.docker/
+      args: 
+        chdir: /root/.docker/
       register: ca_pem
       set_fact: ca_pem={{set_fact.stdout}}
 
