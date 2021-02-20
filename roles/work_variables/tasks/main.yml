@@ -153,7 +153,7 @@
 
 
 - name: Setting host facts using key=value pairs, note that this always creates strings or booleans
-  set_fact: one_fact="something" other_fact="{{ HOST_NAME_SH }}"
+  set_fact: one_fact="ls -ltr" other_fact="{{ HOST_NAME_SH }}"
 
 
 - name: Show me my variables
