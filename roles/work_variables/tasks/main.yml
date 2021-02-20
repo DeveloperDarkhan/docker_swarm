@@ -205,7 +205,10 @@
       args: 
         chdir: /root/.docker/
       register: ca_pem
-      set_fact: ca_pem={{set_fact.stdout}}
+
+
+    - name: Show certs CA
+      debug: msg="{{ca_pem.stdout}}"
 
 
   when:
