@@ -152,15 +152,25 @@
 #   run_once: true
 
 
-- name: Setting host facts using key=value pairs, note that this always creates strings or booleans
-  set_fact:
-    hosts: ["{{ IP_MASTER_SH_1 }}", "{{ IP_MASTER_SH_2 }}", "{{ IP_MASTER_SH_3 }}", "{{ IP_MASTER_SH_7 }}"]
+# - name: Setting host facts using key=value pairs, note that this always creates strings or booleans
+#   set_fact:
+#     hosts: ["{{ IP_MASTER_SH_1 }}", "{{ IP_MASTER_SH_2 }}", "{{ IP_MASTER_SH_3 }}", "{{ IP_MASTER_SH_4 }}", "{{ IP_MASTER_SH_5 }}"]
 
 
-- name: Show me my variables
-  debug: msg="{{hosts}} "
+# - name: Show me my variables
+#   debug: msg="{{hosts}} "
 
-
+- name: Send bash script to execute file
+  shell: |
+    HOST={{ HOST_NAME_SH }}
+    PASSWORD={{ PASSWORD_SH }}
+    HOST_MASTER_1={{ IP_MASTER_SH_1 }}
+    HOST_MASTER_2={{ IP_MASTER_SH_2 }}
+    HOST_MASTER_3={{ IP_MASTER_SH_3 }}
+    HOST_MASTER_4={{ IP_MASTER_SH_4 }}
+    HOST_MASTER_5={{ IP_MASTER_SH_5 }}
+  when:
+    - inventory_hostname in groups['swarm-manager']
 
 # HOST_MASTER_1={{ IP_MASTER_SH_1 }}
 #     HOST_MASTER_2={{ IP_MASTER_SH_2 }}
