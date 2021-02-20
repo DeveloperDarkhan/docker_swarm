@@ -215,8 +215,8 @@
 
 
  
-- name: Show me
-  debug: msg="{{ca_pem}}"
+# - name: Show me
+#   debug: msg="{{ca_pem}}"
 
 # - name: Copy files to servers
 #   shell: |
