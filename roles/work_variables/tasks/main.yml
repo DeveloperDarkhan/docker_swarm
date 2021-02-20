@@ -199,16 +199,26 @@
         creates: /root/.docker/ca.pem
       ignore_errors: true
 
-    - name: Read files and write to variable
+    - name: Read CA cert and write to variable
       shell: >
         cat ./ca.pem
       args: 
         chdir: /root/.docker/
       register: ca_pem_out
 
-    - name: Setting host facts using key=value pairs, note that this always creates strings or booleans
-      set_fact:
-        ca_pem: "{{ca_pem_out.stdout}}"
+    - name: Read key_private cert and write to variable
+      shell: >
+        cat ./server-key.pem
+      args: 
+        chdir: /root/.docker/
+      register: server-key_out
+
+    - name: Read key_cert cert and write to variable
+      shell: >
+        cat ./server-cert.pem
+      args: 
+        chdir: /root/.docker/
+      register: server-cert_out
 
   when:
     - inventory_hostname in groups['swarm-manager']
@@ -227,13 +237,27 @@
 #   when:
 #     - inventory_hostname in groups[' docker_swarm_cluster']
 
-- name: T
+- name: Block to send certificates on each node
   block:
     
-    - name: Copy using inline content
+    - name: Copy using inline content 1
       copy:
         content: "{{hostvars[item]['ca_pem_out']['stdout']}}"
         dest: /root/.docker/ca.pem
+      with_items:
+        - "{{ hostvars[inventory_hostname]['groups']['swarm-manager'] }}"
+
+    - name: Copy using inline content 2
+      copy:
+        content: "{{hostvars[item]['server-cert_out']['stdout']}}"
+        dest: /root/.docker/server-cert.pem
+      with_items:
+        - "{{ hostvars[inventory_hostname]['groups']['swarm-manager'] }}"
+
+    - name: Copy using inline content 3
+      copy:
+        content: "{{hostvars[item]['server-key_out']['stdout']}}"
+        dest: /root/.docker/server-key.pem
       with_items:
         - "{{ hostvars[inventory_hostname]['groups']['swarm-manager'] }}"
 
