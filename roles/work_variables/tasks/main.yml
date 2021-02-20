@@ -215,15 +215,22 @@
 
 
  
-- name: Copy files to servers
-  shell: |
-    {{ca_pem}} > ca.pem'
-  args: 
-    chdir: /root/.docker/
-    creates: /root/.docker/ca.pem
+# - name: Copy files to servers
+#   shell: |
+#     {{ca_pem}} > ca.pem'
+#   args: 
+#     chdir: /root/.docker/
+#     creates: /root/.docker/ca.pem
+#   when:
+#     - inventory_hostname in groups[' docker_swarm_cluster']
+
+
+- name: Copy using inline content
+  copy:
+    content: "{{ca_pem}}"
+    dest: /root/.docker/ca.pem
   when:
     - inventory_hostname in groups[' docker_swarm_cluster']
-
     #     > server-key.pem
     # > server-cert.pem
     # > cert.pem
