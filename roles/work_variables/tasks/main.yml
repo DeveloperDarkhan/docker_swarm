@@ -157,4 +157,4 @@
 
 
 - name: Show me my variables
-  debug: msg="{{one_fact}}" msg="{{other_fact}}" 
+  debug: msg="{{one_fact}} {{other_fact}}"
